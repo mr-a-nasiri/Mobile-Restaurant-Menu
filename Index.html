@@ -11,6 +11,43 @@
     <title>Document</title>
   </head>
   <body>
+    <header class="main-header">
+      <div class="container">
+        <h1 class="title">Jimmy's Diner</h1>
+        <p class="leed">The best burgers and <br />pizzas in town.</p>
+      </div>
+    </header>
+    <main>
+      <div class="container">
+        <div class="items">
+          <!-- Inject items here -->
+        </div>
+      </div>
+
+      <div class="container hidden" id="order-submit">
+        <div class="order">
+          <p class="order-title">Your order</p>
+          <div class="order-items">
+            <div class="order-item-wrapper">
+              <span class="order-item-count">5X </span>
+              <p class="order-item-name">Pizza</p>
+              <button class="btn-remove">Remove</button>
+              <span class="order-item-price">$14</span>
+            </div>
+            <div class="order-item-wrapper">
+              <span class="order-item-count">10X </span>
+              <p class="order-item-name">Hamburger</p>
+              <button class="btn-remove">Remove</button>
+              <span class="order-item-price">$12</span>
+            </div>
+          </div>
+
+          <p class="total-price-wrapper">Total price: <span class="total-price-value">$26</span></p>
+
+          <input type="submit" value="Complete order" class="btn-order" />
+        </div>
+      </div>
+    </main>
     <script src="js/script.js" type="module"></script>
   </body>
 </html>
