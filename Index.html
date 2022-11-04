@@ -11,35 +11,74 @@
     <title>Document</title>
   </head>
   <body>
-    <header class="main-header">
-      <div class="container">
-        <h1 class="title">Jimmy's Diner</h1>
-        <p class="leed">The best burgers and <br />pizzas in town.</p>
-      </div>
-    </header>
-    <main>
-      <div class="container">
-        <div class="items">
-          <!-- Inject items here -->
+    <div class="wide-screen">
+      <header class="main-header">
+        <div class="container">
+          <h1 class="title">Jimmy's Diner</h1>
+          <p class="leed">The best burgers and <br />pizzas in town.</p>
         </div>
-      </div>
-
-      <div class="container hidden" id="order-submit">
-        <div class="order">
-          <p class="order-title">Your order</p>
-
-          <div class="order-items" id="order-items">
-            <!-- Inject added items here -->
+      </header>
+      <main>
+        <div class="container">
+          <div class="items">
+            <!-- Inject items here -->
           </div>
-
-          <p class="total-price-wrapper">
-            Total price:
-            <span class="total-price-value">$${totalPrice}</span>
-          </p>
-          <input type="submit" value="Complete order" class="btn-order" />
         </div>
-      </div>
-    </main>
+
+        <div class="container hidden" id="order-submit">
+          <div class="order">
+            <p class="order-title">Your order</p>
+
+            <div class="order-items" id="order-items">
+              <!-- Inject added items here -->
+            </div>
+
+            <p class="total-price-wrapper">
+              Total price:
+              <span class="total-price-value">$${totalPrice}</span>
+            </p>
+            <input type="submit" value="Complete order" class="btn" id="btn-order" />
+          </div>
+        </div>
+        <div class="container">
+          <div class="order-done hidden"></div>
+        </div>
+      </main>
+      <form class="user-details hidden">
+        <span class="close-btn" id="close-btn">✖</span>
+
+        <p>Enter you card details</p>
+
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Enter your name"
+          aria-label="Enter your name"
+          required
+        />
+        <input
+          type="number"
+          id="card-number"
+          name="card-number"
+          placeholder="Enter your card number"
+          aria-label="Enter your card number"
+          required
+        />
+        <input
+          type="number"
+          id="CVV"
+          name="CVV"
+          placeholder="Enter your CVV"
+          aria-label="Enter your CVV"
+          required
+        />
+
+        <input type="submit" value="Pay" class="btn" id="pay" />
+      </form>
+      <div class="overlay hidden"></div>
+    </div>
+
     <script src="js/script.js" type="module"></script>
   </body>
 </html>

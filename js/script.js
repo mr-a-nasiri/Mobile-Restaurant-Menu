@@ -3,20 +3,29 @@
 import { menuArray } from '/js/data.js';
 
 const totalPriceEl = document.querySelector('.total-price-value');
-
 const orderPanel = document.getElementById('order-submit');
+const userDetails = document.querySelector('.user-details');
+const overlay = document.querySelector('.overlay');
+const orderDone = document.querySelector('.order-done');
+
 // Values
-const addedItems = [];
+let addedItems = [];
 
 document.addEventListener('click', function (e) {
   if (e.target.dataset.add) {
     getAddedItems(e.target.dataset.add);
-  } else if (e.target.dataset.remove) {
-    removeItem(e.target.dataset.remove);
   } else if (e.target.dataset.decrease) {
     decreaseItem(e.target.dataset.decrease);
+  } else if (e.target.dataset.remove) {
+    removeItem(e.target.dataset.remove);
+  } else if (e.target.id === 'btn-order') {
+    completeOrder();
+  } else if (e.target.id === 'close-btn') {
+    closeOrder();
   }
 });
+
+userDetails.addEventListener('submit', pay);
 
 function render() {
   let feedHtml = '';
@@ -45,13 +54,15 @@ render();
 
 // addedItems
 function getAddedItems(uuid) {
+  orderDone.classList.add('hidden');
+
   menuArray.forEach((item, index) => {
     if (item.uuid === uuid) {
       if (!addedItems.includes(item)) {
         addedItems.push(item);
-        addedItems[index].number++;
+        addedItems[addedItems.indexOf(item)].number++;
       } else {
-        addedItems[index].number++;
+        addedItems[addedItems.indexOf(item)].number++;
       }
     }
   });
@@ -91,6 +102,7 @@ function renderAddedItems(addedItems) {
 function removeItem(uuid) {
   addedItems.forEach((item, index) => {
     if (item.uuid === uuid) {
+      addedItems[index].number = 0;
       addedItems.splice(index, 1);
     }
   });
@@ -111,6 +123,38 @@ function decreaseItem(uuid) {
 
   renderAddedItems(addedItems);
 }
+
+// Complete order
+function completeOrder() {
+  console.log('clicked');
+  userDetails.classList.remove('hidden');
+  overlay.classList.remove('hidden');
+}
+
+function closeOrder() {
+  userDetails.classList.add('hidden');
+  overlay.classList.add('hidden');
+}
+
+function pay(e) {
+  e.preventDefault();
+
+  const formData = new FormData(userDetails);
+  const userName = formData.get('name');
+
+  userDetails.classList.add('hidden');
+  overlay.classList.add('hidden');
+  orderDone.classList.remove('hidden');
+
+  orderDone.innerHTML = `<p>Thanks, ${userName}! Your order is on its way!</p>`;
+
+  addedItems.forEach(item => {
+    item.number = 0;
+    addedItems = [];
+  });
+  renderAddedItems(addedItems);
+}
+
 // Elements & Input
 // Btn Elements
 
