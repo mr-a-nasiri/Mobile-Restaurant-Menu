@@ -93,8 +93,19 @@ body {
   color: #444;
 }
 
-.item-add-btn {
-  margin-left: auto;
+.item-btn-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 3%;
+  gap: 3rem;
+}
+
+.item-add-btn,
+.item-decrease-btn {
+  margin: auto;
   background: limegreen;
   height: 3.2rem;
   width: 3.2rem;
@@ -103,8 +114,6 @@ body {
   position: relative;
   align-self: flex-start;
   cursor: pointer;
-  position: absolute;
-  right: 3%;
 }
 .item-add-btn::after {
   content: '';
@@ -117,7 +126,8 @@ body {
   width: 0.25rem;
   background: #fff;
 }
-.item-add-btn::before {
+.item-add-btn::before,
+.item-decrease-btn::before {
   content: '';
   position: absolute;
   display: inline-block;
@@ -127,6 +137,14 @@ body {
   width: 1.2rem;
   height: 0.25rem;
   background: #fff;
+}
+
+.item-decrease-btn {
+  /* bottom: 10%;
+  right: 4.2%; */
+  height: 2.4rem;
+  width: 2.4rem;
+  background: #ccc;
 }
 
 .item-add-btn:active {

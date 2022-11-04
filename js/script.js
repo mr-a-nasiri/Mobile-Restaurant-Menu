@@ -13,6 +13,8 @@ document.addEventListener('click', function (e) {
     getAddedItems(e.target.dataset.add);
   } else if (e.target.dataset.remove) {
     removeItem(e.target.dataset.remove);
+  } else if (e.target.dataset.decrease) {
+    decreaseItem(e.target.dataset.decrease);
   }
 });
 
@@ -28,7 +30,11 @@ function render() {
           <p class="item-content">${item.ingredients}</p>
           <p class="item-price">$${item.price}</p>
         </div>
-        <button class="item-add-btn" data-add="${item.uuid}"></button>
+        <div class="item-btn-wrapper">
+          <button class="item-add-btn" data-add="${item.uuid}"></button>
+
+          <button class="item-decrease-btn" data-decrease="${item.uuid}"></button>
+        </div>
       </div>
     `;
   });
@@ -39,10 +45,14 @@ render();
 
 // addedItems
 function getAddedItems(uuid) {
-  menuArray.forEach(item => {
+  menuArray.forEach((item, index) => {
     if (item.uuid === uuid) {
-      if (!addedItems.includes(item)) addedItems.push(item);
-      else addedItems[addedItems.indexOf(item)].number++;
+      if (!addedItems.includes(item)) {
+        addedItems.push(item);
+        addedItems[index].number++;
+      } else {
+        addedItems[index].number++;
+      }
     }
   });
 
@@ -82,6 +92,20 @@ function removeItem(uuid) {
   addedItems.forEach((item, index) => {
     if (item.uuid === uuid) {
       addedItems.splice(index, 1);
+    }
+  });
+
+  renderAddedItems(addedItems);
+}
+
+// Decrease item
+function decreaseItem(uuid) {
+  addedItems.forEach((item, index) => {
+    if (item.uuid === uuid) {
+      addedItems[index].number--;
+      if (addedItems[index].number === 0) {
+        addedItems.splice(index, 1);
+      }
     }
   });
 
