@@ -1,14 +1,18 @@
 'use strict';
 
-import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 import { menuArray } from '/js/data.js';
 
+const totalPriceEl = document.querySelector('.total-price-value');
+
+const orderPanel = document.getElementById('order-submit');
 // Values
-const selectedItems = [];
+const addedItems = [];
 
 document.addEventListener('click', function (e) {
   if (e.target.dataset.add) {
-    addItem(e.target.dataset.add);
+    getAddedItems(e.target.dataset.add);
+  } else if (e.target.dataset.remove) {
+    removeItem(e.target.dataset.remove);
   }
 });
 
@@ -24,7 +28,7 @@ function render() {
           <p class="item-content">${item.ingredients}</p>
           <p class="item-price">$${item.price}</p>
         </div>
-        <button class="item-add-btn" data-add="${uuidv4()}"></button>
+        <button class="item-add-btn" data-add="${item.uuid}"></button>
       </div>
     `;
   });
@@ -33,12 +37,55 @@ function render() {
 }
 render();
 
-function addItem(uuid) {
-  document.getElementById('order-submit').classList.remove('hidden');
-
+// addedItems
+function getAddedItems(uuid) {
   menuArray.forEach(item => {
-    if (item.uuid === uuid) selectedItems.push(item);
+    if (item.uuid === uuid) {
+      if (!addedItems.includes(item)) addedItems.push(item);
+      else addedItems[addedItems.indexOf(item)].number++;
+    }
   });
+
+  renderAddedItems(addedItems);
+}
+
+function renderAddedItems(addedItems) {
+  let feedHtml = '';
+  let totalPrice = 0;
+
+  addedItems.forEach(item => {
+    feedHtml += `
+      <div class="order-item-wrapper">
+        <span class="order-item-count">X${item.number} </span>
+        <p class="order-item-name">${item.name}</p>
+        <button class="btn-remove" data-remove="${item.uuid}">Remove</button>
+        <span class="order-item-price">$${item.price * item.number}</span>
+      </div>
+    `;
+
+    totalPrice += item.price * item.number;
+  });
+
+  totalPriceEl.textContent = `$${totalPrice}`;
+
+  if (totalPriceEl.textContent !== '$0') {
+    orderPanel.classList.remove('hidden');
+  } else if (totalPriceEl.textContent === '$0') {
+    orderPanel.classList.add('hidden');
+  }
+
+  document.getElementById('order-items').innerHTML = feedHtml;
+}
+
+// Remove item
+function removeItem(uuid) {
+  addedItems.forEach((item, index) => {
+    if (item.uuid === uuid) {
+      addedItems.splice(index, 1);
+    }
+  });
+
+  renderAddedItems(addedItems);
 }
 // Elements & Input
 // Btn Elements
@@ -49,12 +96,13 @@ function addItem(uuid) {
 // Utility Functions
 // Functions
 
-/* <div class="item">
-  <img src="images/pizza.png" alt="pizza" class="item-img" />
-  <div class="item-details">
-    <p class="item-name">Pizza</p>
-    <p class="item-content">pepperoni,mushroom,mozzarella</p>
-    <p class="item-price">$14</p>
-  </div>
-  <button class="item-add-btn"></button>
-</div> */
+/* 
+            <div class="order-item-wrapper">
+              <span class="order-item-count">5X </span>
+              <p class="order-item-name">Pizza</p>
+              <button class="btn-remove">Remove</button>
+              <span class="order-item-price">$14</span>
+            </div>
+*/
+
+//           <p class="total-price-wrapper">Total price: <span class="total-price-value">$26</span></p>
